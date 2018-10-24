@@ -1,6 +1,14 @@
-ä¸‹è½½ååˆ›å»ºwexinæ–‡ä»¶å¤¹ï¼ŒæŠŠä¸‹è½½ä¸œè¥¿å…¨æ‹·è¿‡å»ï¼Œæˆ–è€…å»Main21ä»£ç é‡Œé¢ä¿®æ”¹è·¯å¾„
-æŠŠweixinè¿™ä¸ªæ–‡ä»¶å¤¹æ”¾åˆ°ç”µè„‘æ¡Œé¢
-æ‰“å¼€å¾®ä¿¡ï¼Œè¿›å…¥å¦‚å›¾picnameç±»ä¼¼çš„ç•Œé¢ï¼Œç„¶åç‚¹å‡»exe.bat
-æµ‹è¯•æ‰‹æœºåˆ†è¾¨ç‡ï¼š1080*1920
-ä½œè€…ï¼šzyi_xd
-CSDNæ–‡ç« åœ°å€ï¼šhttps://blog.csdn.net/qq_34435022/article/details/83308679
+°ÑweixinÕâ¸öÎÄ¼ş¼Ğ·Åµ½µçÄÔ×ÀÃæ
+ĞŞ¸Äexe.batÖĞÂ·¾¶Îª×Ô¼º×ÀÃæ
+
+¼´ÏÂÃæ2ĞĞÖĞµÄC:\Users\ZY\Desktop/weixinÌæ»»Îª×Ô¼º×ÀÃæ
+adb pull /sdcard/picname.png C:\Users\ZY\Desktop\weixin
+cd C:\Users\ZY\Desktop\weixin
+
+ÏÂÔØºó´´½¨wexinÎÄ¼ş¼Ğ£¬°ÑÏÂÔØ¶«Î÷È«¿½¹ıÈ¥£¬»òÕßÈ¥Main21´úÂëÀïÃæĞŞ¸ÄÂ·¾¶
+°ÑweixinÕâ¸öÎÄ¼ş¼Ğ·Åµ½µçÄÔ×ÀÃæ
+´ò¿ªÎ¢ĞÅ£¬½øÈëÈçÍ¼picnameÀàËÆµÄ½çÃæ£¬È»ºóµã»÷exe.bat
+²âÊÔÊÖ»ú·Ö±æÂÊ£º1080*1920
+×÷Õß£ºzyi_xd
+CSDNÎÄÕÂµØÖ·£ºhttps://blog.csdn.net/qq_34435022/article/details/83308679
+githubµØÖ·£ºhttps://github.com/zhongyiqwer/yibihuawan

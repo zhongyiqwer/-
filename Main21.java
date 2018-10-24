@@ -33,6 +33,7 @@ public class Main21 {
 	static int interval = 0;
 	static Stack<Integer> arr = new Stack<>();
 	private static String deskTopPath = "";
+	private static int startCount=0;
 	public static void main(String[] args) {
 		
 		FileSystemView fsv = FileSystemView.getFileSystemView();
@@ -41,26 +42,31 @@ public class Main21 {
 		deskTopPath = com.getPath();
 		
 		int [][] input = getImage();
-		//n为行 m为列
-		System.out.println("hang="+n+"  lie="+m);
-		System.out.println(x+"  "+y);
-		int xx = miaoX + interval*y+interval/2;
-		int yy = miaoY + interval*x+interval/2;
-		System.out.println("起始坐标："+xx+"  "+yy);
-		Stack<Integer> stack = new Stack<>();
-		stack.push(x*m+y);
-		find(input,stack);
+		if (input!=null) {
+			//n为行 m为列
+			System.out.println("hang="+n+"  lie="+m);
+			System.out.println(x+"  "+y);
+			int xx = miaoX + interval*y+interval/2;
+			int yy = miaoY + interval*x+interval/2;
+			System.out.println("起始坐标："+xx+"  "+yy);
+			Stack<Integer> stack = new Stack<>();
+			stack.push(x*m+y);
+			find(input,stack);
+		}else {
+			//初始状态不正确时，重置
+			getAdbShell();
+		}
 	}
 
 	private static void getAdbShell(Stack<Integer> outStack) {
 		String batPath = deskTopPath+"\\weixin\\test.bat";
 		Iterator<Integer> iterator = outStack.iterator();
 		iterator.next();
+		FileOutputStream fs=null;
+		PrintStream pStream = null;
 		try {			
-			FileOutputStream fs =  new FileOutputStream(batPath);
-			PrintStream pStream = new PrintStream(fs);
-			//pStream.println("@echo off");
-			//pStream.println(":start");
+			fs =  new FileOutputStream(batPath);
+			pStream = new PrintStream(fs);
 			while (iterator.hasNext()) {
 				int temp = iterator.next();
 				int startM = temp%m;
@@ -74,19 +80,47 @@ public class Main21 {
 			pStream.println("@ping 127.0.0.1 -n 4 >nul");
 			pStream.println("adb shell input tap "+550+" "+1100);
 			pStream.println("@ping 127.0.0.1 -n 2 >nul");
-			pStream.println("adb shell /system/bin/screencap -p /sdcard/picname.png");
-			pStream.println("adb pull /sdcard/picname.png "+deskTopPath+"/weixin");
-			pStream.println("C:");
-			pStream.println("cd "+deskTopPath+"\\weixin");
-			//pStream.println("@ping 127.0.0.1 -n 5 >nul");
-			pStream.println("javac Main21.java");
-			//pStream.println("@ping 127.0.0.1 -n 2 >nul");
-			pStream.println("java Main21");
-			//pStream.println("@ping 127.0.0.1 -n 2 >nul");
-			//pStream.println("goto start");
-			//pStream.println("pause");
+			pStream.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (pStream!=null) {
+				pStream.close();
+			}
+			if (fs!=null) {
+				try {
+					fs.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private static void getAdbShell() {
+		String batPath = deskTopPath+"\\weixin\\test.bat";
+		FileOutputStream fs=null;
+		PrintStream pStream = null;
+		try {			
+			fs =  new FileOutputStream(batPath);
+			pStream = new PrintStream(fs);
+			pStream.println("@ping 127.0.0.1 -n 2 >nul");
+			pStream.println("adb shell input tap "+210+" "+1770);
+			pStream.println("@ping 127.0.0.1 -n 2 >nul");
+			pStream.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (pStream!=null) {
+				pStream.close();
+			}
+			if (fs!=null) {
+				try {
+					fs.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 	}
@@ -120,13 +154,13 @@ public class Main21 {
 			
 			miaoX = startX;
 			miaoY = startY;
-			//System.out.println(miaoX+"  "+miaoY);
+			System.out.println(miaoX+"  "+miaoY);
 			//边缘裁剪
 			param.setSourceRegion(new Rectangle(startX, startY, widht,height));
 			BufferedImage bImage2 = imageReader.read(0, param);
 			ImageIO.write(bImage2, "png", new File(outPath2));
 			System.out.println("leftOff = "+leftOff);
-			//System.out.println("widht="+bImage2.getWidth()+" height="+bImage2.getHeight());
+			System.out.println("widht="+bImage2.getWidth()+" height="+bImage2.getHeight());
 			int start =leftOff;
 			
 			//根据左边裁剪大小来确定小方格大小，从而计算二维数组的行和列大小
@@ -160,6 +194,14 @@ public class Main21 {
 				interval=170;
 				m=bImage2.getWidth()/170;
 				n=bImage2.getHeight()/170;
+			}else if (start==95) {
+				interval=126;
+				m=bImage2.getWidth()/126;
+				n=bImage2.getHeight()/126;
+			}else if (start==160) {
+				interval=126;
+				m=bImage2.getWidth()/126;
+				n=bImage2.getHeight()/126;
 			}
 			
 			//更具左边裁剪大小 leftOff=start来得到二维数组
@@ -173,6 +215,8 @@ public class Main21 {
 						rgb1 = bImage2.getRGB(100+j*200, 100+i*200);
 					}else if (start==75) {
 						rgb1 = bImage2.getRGB(75+j*150, 75+i*150);
+					}else if (start==95 || start==160) {
+						rgb1 = bImage2.getRGB(62+j*126, 62+i*126);
 					}
 					
 					//System.out.print(rgb1+" ");
@@ -187,6 +231,11 @@ public class Main21 {
 						x=i;
 						y=j;
 						input[i][j] = 0;
+						startCount++;
+						if(startCount>1) {
+							return null;
+						}
+						System.out.println("找到起始点坐标:"+startCount);
 					}
 				}
 				//System.out.println();
@@ -224,20 +273,22 @@ public class Main21 {
 			//裁剪下边
 		}else if (order==2) {
 			for(int y=1335;y>0;y-=5) {
-				for(int j=80;j<1080;j+=130) {
+				for(int j=80;j<1080;j+=30) {
 					if (bImage.getRGB(j,y)!= -394759) {
 						start = y;
 						break;
 					}
+					//System.out.println(bImage.getRGB(j, y)+" "+"xia = "+y);
 				}
 				if (start!=0) {
 					break;
 				}
+
 			}
 			//裁剪左边
 		}else if (order==3) {
 			for(int x=5;x<1080;x+=5) {
-				for(int j=80;j<1080;j+=130) {
+				for(int j=80;j<1080;j+=30) {
 					if (bImage.getRGB(x, j)!= -394759) {
 						start = x;
 						break;
@@ -322,7 +373,7 @@ public class Main21 {
 		
 		return stack;
 	}
-	
+
 	//检查向上的合法性
 	private static boolean checkUp(int[][] input, int x, int y) {
 		if (x-1>=0 && input[x-1][y]==1) {
