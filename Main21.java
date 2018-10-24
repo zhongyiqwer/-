@@ -260,8 +260,8 @@ public class Main21 {
 							start = y;
 							break;
 						}else {
-							//System.out.println("走了加50");
-							start = y+50;
+							//System.out.println("走了加30");
+							start = y+30;
 						}
 						//System.out.println("start = "+start);
 					}
